@@ -23,7 +23,8 @@ mmirestriktor <- function(){
   server <- function(input, output) {
     data <- shiny::reactive({
       shiny::req(input$file)
-      readr::read_csv(input$file$datapath)
+      utils::read.csv(input$file$datapath, row.names = NULL)
+
     })
 
     model <- NULL
@@ -61,8 +62,8 @@ mmirestriktor <- function(){
 
     shiny::observeEvent(input$run_analysis, {
       shiny::req(input$constraint, model, input$analysis_type)
-      iht_res <- NULL
-      rm_res <- NULL
+      iht_res <- "Select Informative Hypothesis Test as an Analysis Type to view iht results."
+      rm_res <- "Select Restricted Means as an Analysis Type to view rm results."
       constraint <- input$constraint
       if ("Informative Hypothesis Test" %in% input$analysis_type) {
         iht_res <- restriktor::iht(model, constraints = constraint)

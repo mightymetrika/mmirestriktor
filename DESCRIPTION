@@ -13,7 +13,6 @@ URL: https://github.com/mightymetrika/mmirestriktor
 BugReports: https://github.com/mightymetrika/mmirestriktor/issues
 Imports: 
     MASS,
-    readr,
     restriktor,
     shiny
 Suggests: 
