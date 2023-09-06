@@ -13,8 +13,7 @@ that class): a symbolic description of the model to be fitted.}
 \item{data}{A data frame containing the variables in the model.}
 
 \item{engine}{A character string indicating which engine to use for model
-fitting.
-Can be one of "lm", "glm", "rlm". Default is "lm".}
+fitting. Can be one of "lm", "glm", "rlm". Default is "lm".}
 
 \item{standardize}{Logical. If TRUE, numeric variables in \code{data} are
 standardized before fitting the model. Default is TRUE.}
@@ -27,16 +26,20 @@ An object representing the fitted model, of class 'lm', 'glm', or 'rlm'
 depending on the engine used.
 }
 \description{
-\code{mmir_model} is an internal function for the \code{mmirestriktor} package that fits
+\code{mmir_model} is a function for the \code{mmirestriktor} package that fits
 a model to data using one of the specified engines ('lm', 'glm', or 'rlm').
 It also provides an option to standardize numeric variables.
 }
 \details{
-The \code{mmir_model} function is a helper function for the \code{mmirestriktor} shiny
-app. It allows users to fit models using one of the specified engines and
-provides an option to standardize numeric variables.
+The \code{mmir_model} function serves as a utility function for fitting models
+in the \code{mmirestriktor} package. It supports different modeling engines and
+allows for variable standardization.
+}
+\examples{
+mod <- mmir_model(mpg ~ hp + wt, data = mtcars, engine = "lm")
+summary(mod)
+
 }
 \seealso{
 \code{\link[stats]{lm}}, \code{\link[stats]{glm}}, \code{\link[MASS]{rlm}}
 }
-\keyword{internal}
