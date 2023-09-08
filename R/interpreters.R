@@ -13,8 +13,11 @@
 #' hypothesis test results.
 #'
 #' @references
-#' Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor: Evaluating
-#' informative hypotheses for linear models. In Small Sample Size Solutions (1st ed., p. 16). Routledge. \url{https://www.taylorfrancis.com/chapters/oa-edit/10.4324/9780429273872-14/introduction-restriktor-leonard-vanbrabant-yves-rosseel}
+#' Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor:
+#' Evaluating informative hypotheses for linear models. In R. van de Schoot & M.
+#' Miocevic (Eds.), Small Sample Size Solutions: A Guide for Applied Researchers
+#' and Practitioners (1st ed., pp. 157 -172). Routledge.
+#' https://doi.org/10.4324/9780429273872-14
 #'
 #' @examples
 #' model <- mmir_model(mpg ~ -1 + hp + wt, data = mtcars, engine = "lm",
@@ -30,7 +33,7 @@ iht_interpreter <- function(iht_res, alpha=0.05) {
   }
 
   # Initialize result explanation with a brief overview and citation
-  explanation <- "Informative hypothesis testing involves two types of tests: Type A and Type B. Type A tests if the parameters involved in the hypothesis are equal against the constraint order (e.g., HA0: a1 = a2 vs. HA1: a1 < a2). Type B tests if all constraints hold in the population against no constraints (e.g., HB0: a1 < a2 vs. HB1: no constraints).\n\nA non-significant Type B followed by a significant Type A suggests evidence in favor of the hypothesis. [Source: Small Sample Size Solutions, 1st Edition, Routledge, DOI: https://doi.org/10.4324/9780429273872]\n"
+  explanation <- "Informative hypothesis testing involves two types of tests: Type A and Type B. Type A tests if the parameters involved in the hypothesis are equal against the constraint order (e.g., HA0: a1 = a2 vs. HA1: a1 < a2). Type B tests if all constraints hold in the population against no constraints (e.g., HB0: a1 < a2 vs. HB1: no constraints).\n\nA non-significant Type B followed by a significant Type A suggests evidence in favor of the hypothesis. [Source: Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor: Evaluating informative hypotheses for linear models. In R. van de Schoot & M. Miocevic (Eds.), Small Sample Size Solutions: A Guide for Applied Researchers and Practitioners (1st ed., pp. 157 -172). Routledge.]\n"
 
   # Extract p-values for Type B and Type A tests
   pvalue_B <- iht_res$B$pvalue
