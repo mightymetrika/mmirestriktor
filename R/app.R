@@ -1,3 +1,33 @@
+#' MMI Restrictor Shiny App
+#'
+#' This function launches a Shiny app which allows users to fit and analyze
+#' linear models with restrictions using the mmir_model(), restriktor::iht(),
+#' and `restriktor::restriktor() functions. The app provides a user interface to
+#' upload a CSV file, specify a model formula, and define constraints for
+#' hypothesis testing.
+#'
+#' The app has the following functionalities:
+#' - Upload a CSV file to be used as the dataset for modeling.
+#' - Input a formula to define the model to be fit.
+#' - Choose a model fitting engine from "lm", "glm", and "rlm".
+#' - Specify extra arguments for the model fitting function (currently not
+#'   implemented in the UI).
+#' - Define constraints for hypothesis testing.
+#' - Set a significance level (alpha) for hypothesis testing.
+#' - Choose the type of analysis to perform: Informative Hypothesis Test or
+#'   Restricted Means.
+#' - View the variables available in the uploaded dataset.
+#' - View the terms available for defining constraints after fitting the model.
+#' - View the results and interpretation of the hypothesis tests after running
+#'   the analysis.
+#'
+#' @return This function does not return a value; it launches a Shiny app in the
+#' user's default web browser.
+#' @export
+#' @examples
+#' if (interactive()){
+#'   mmirestriktor()
+#' }
 mmirestriktor <- function(){
 
   ui <- shiny::fluidPage(
@@ -9,6 +39,7 @@ mmirestriktor <- function(){
         shiny::textInput("args", "Extra arguments"),
         shiny::actionButton("fit_model", "Fit Model"),
         shiny::textAreaInput("constraint", "Constraint", rows = 3),
+        shiny::numericInput("alpha", "Significance Level (alpha)", value = 0.05, min = 0.01, max = 1, step = 0.01),
         shiny::checkboxGroupInput("analysis_type", "Analysis Type", choices = c("Informative Hypothesis Test", "Restricted Means")),
         shiny::actionButton("run_analysis", "Run Analysis")
       ),
@@ -47,6 +78,25 @@ mmirestriktor <- function(){
     shiny::observeEvent(input$fit_model, {
       shiny::req(input$formula, data(), input$engine)
       args_list <- list(formula = stats::as.formula(input$formula), data = data(), engine = input$engine, standardize = TRUE)
+
+      # If the user has provided extra arguments, add them to args_list
+      if (nzchar(input$args)) {
+        extra_args <- tryCatch({
+          str2list(input$args)
+        }, error = function(e) {
+          shiny::showNotification(
+            paste("Error in extra arguments:", e$message),
+            type = "error",
+            duration = NULL
+          )
+          return(NULL)
+        })
+
+        # If extra_args is not NULL, add it to args_list
+        if (!is.null(extra_args)) {
+          args_list <- c(args_list, extra_args)
+        }
+      }
 
       tryCatch({
         model <<- do.call(mmir_model, args_list)
@@ -92,7 +142,7 @@ mmirestriktor <- function(){
           iht_res <- restriktor::iht(model, constraints = constraint)
           output$iht_results <- shiny::renderPrint({iht_res})
           output$iht_interpretation <- shiny::renderUI({
-            shiny::HTML(nl2br(iht_interpreter(iht_res)))
+            shiny::HTML(nl2br(iht_interpreter(iht_res, alpha = input$alpha)))
           })
           output$iht_results_header <- shiny::renderUI({
             shiny::tags$h2("Informative Hypothesis Test Results")
@@ -113,7 +163,7 @@ mmirestriktor <- function(){
       if ("Restricted Means" %in% input$analysis_type) {
         tryCatch({
           rm_res <- restriktor::restriktor(model, constraints = constraint)
-          output$rm_results <- shiny::renderPrint({rm_res})
+          output$rm_results <- shiny::renderPrint({summary(rm_res)})
           output$rm_interpretation <- shiny::renderUI({
             shiny::HTML(nl2br(rm_interpreter(rm_res)))
           })
@@ -139,6 +189,9 @@ mmirestriktor <- function(){
 }
 
 
+
+
+
 # mmirestriktor <- function(){
 #
 #   ui <- shiny::fluidPage(
@@ -150,6 +203,7 @@ mmirestriktor <- function(){
 #         shiny::textInput("args", "Extra arguments"),
 #         shiny::actionButton("fit_model", "Fit Model"),
 #         shiny::textAreaInput("constraint", "Constraint", rows = 3),
+#         shiny::numericInput("alpha", "Significance Level (alpha)", value = 0.05, min = 0.01, max = 1, step = 0.01),
 #         shiny::checkboxGroupInput("analysis_type", "Analysis Type", choices = c("Informative Hypothesis Test", "Restricted Means")),
 #         shiny::actionButton("run_analysis", "Run Analysis")
 #       ),
@@ -188,10 +242,22 @@ mmirestriktor <- function(){
 #     shiny::observeEvent(input$fit_model, {
 #       shiny::req(input$formula, data(), input$engine)
 #       args_list <- list(formula = stats::as.formula(input$formula), data = data(), engine = input$engine, standardize = TRUE)
-#       model <<- do.call(mmir_model, args_list)
-#       model_fitted(TRUE)  # Set the reactive value to TRUE after fitting the model
-#       output$model_terms <- shiny::renderPrint({
-#         names(stats::coef(model))
+#
+#       tryCatch({
+#         model <<- do.call(mmir_model, args_list)
+#         model_fitted(TRUE)  # Set the reactive value to TRUE after fitting the model
+#         output$model_terms <- shiny::renderPrint({
+#           names(stats::coef(model))
+#         })
+#       }, error = function(e) {
+#         # Display the error message in the Shiny app
+#         shiny::showNotification(
+#           paste("Error:", e$message),
+#           type = "error",
+#           duration = NULL
+#         )
+#         # Reset the model fitting status to FALSE
+#         model_fitted(FALSE)
 #       })
 #     })
 #
@@ -221,7 +287,7 @@ mmirestriktor <- function(){
 #           iht_res <- restriktor::iht(model, constraints = constraint)
 #           output$iht_results <- shiny::renderPrint({iht_res})
 #           output$iht_interpretation <- shiny::renderUI({
-#             shiny::HTML(nl2br(iht_interpreter(iht_res)))
+#             shiny::HTML(nl2br(iht_interpreter(iht_res, alpha = input$alpha)))
 #           })
 #           output$iht_results_header <- shiny::renderUI({
 #             shiny::tags$h2("Informative Hypothesis Test Results")
@@ -242,7 +308,7 @@ mmirestriktor <- function(){
 #       if ("Restricted Means" %in% input$analysis_type) {
 #         tryCatch({
 #           rm_res <- restriktor::restriktor(model, constraints = constraint)
-#           output$rm_results <- shiny::renderPrint({rm_res})
+#           output$rm_results <- shiny::renderPrint({summary(rm_res)})
 #           output$rm_interpretation <- shiny::renderUI({
 #             shiny::HTML(nl2br(rm_interpreter(rm_res)))
 #           })
@@ -266,5 +332,3 @@ mmirestriktor <- function(){
 #
 #   shiny::shinyApp(ui = ui, server = server)
 # }
-#
-#
