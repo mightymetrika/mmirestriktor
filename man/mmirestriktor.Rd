@@ -13,7 +13,7 @@ user's default web browser.
 \description{
 This function launches a Shiny app which allows users to fit and analyze
 linear models with restrictions using the mmir_model(), restriktor::iht(),
-and `restriktor::restriktor() functions. The app provides a user interface to
+and restriktor::restriktor() functions. The app provides a user interface to
 upload a CSV file, specify a model formula, and define constraints for
 hypothesis testing.
 }

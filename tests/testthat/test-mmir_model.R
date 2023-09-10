@@ -7,6 +7,15 @@ test_that("mmir_model works correctly for glm engine", {
   model <- mmir_model(mpg ~ hp + wt, data = mtcars, engine = "glm",
                       standardize = TRUE, family = gaussian)
   expect_s3_class(model, "glm")
+
+  #Test logistic regression
+  mtcars_bin <- mtcars
+  mtcars_bin$mpg <- ifelse(mtcars_bin$mpg > mean(mtcars_bin$mpg), 1,0)
+  suppressWarnings({
+    model <- mmir_model(mpg ~ hp + wt, data = mtcars_bin, engine = "glm",
+                        standardize = TRUE, family = binomial(link = "logit"))
+  })
+  expect_s3_class(model, "glm")
 })
 
 test_that("mmir_model works correctly for rlm engine", {
@@ -33,3 +42,14 @@ test_that("mmir_model returns error for invalid standardize value", {
   expect_error(mmir_model(mpg ~ hp + wt, data = mtcars, engine = "lm", standardize = "invalid_standardize"),
                "standardize is not a single boolean value")
 })
+
+# game_deck <- mmcards::shuffle_deck()
+# head(game_deck)
+#
+# game_deck <- mmcards::deal_card(game_deck)
+# game_deck$dealt_card
+# head(game_deck$updated_deck)
+#
+# game_deck <- mmcards::deal_card(game_deck)
+# game_deck$dealt_card
+# head(game_deck$updated_deck)

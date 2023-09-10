@@ -10,7 +10,7 @@
 #' @param data A data frame containing the variables in the model.
 #' @param engine A character string indicating which engine to use for model
 #' fitting. Can be one of "lm", "glm", "rlm". Default is "lm".
-#' @param standardize Logical. If TRUE, numeric variables in `data` are
+#' @param standardize Logical. If TRUE, numeric predictor variables in `data` are
 #' standardized before fitting the model. Default is TRUE.
 #' @param ... Additional arguments to be passed to the model fitting function
 #' (lm, glm, or rlm).
@@ -48,10 +48,22 @@ mmir_model <- function(formula, data, engine = "lm", standardize = TRUE, ...) {
     stop("standardize is not a single boolean value")
   }
 
-  # Standardize numeric variables if standardize is set to TRUE
+  # Standardize numeric predictors if standardize is set to TRUE
   if (standardize) {
-    num_cols <- sapply(data, is.numeric)
-    data[num_cols] <- scale(data[num_cols])
+    # Get all variables from the formula
+    all_vars <- all.vars(formula)
+
+    # Get the response variable from the formula
+    response_var <- as.character(formula)[2]
+
+    # Identify the predictor variables
+    predictor_vars <- setdiff(all_vars, response_var)
+
+    # Identify numeric predictors
+    numeric_predictors <- predictor_vars[sapply(data[predictor_vars], is.numeric)]
+
+    # Standardize the numeric predictors
+    data[numeric_predictors] <- lapply(data[numeric_predictors], scale)
   }
 
   # Fit the model using the selected engine
@@ -67,5 +79,3 @@ mmir_model <- function(formula, data, engine = "lm", standardize = TRUE, ...) {
 
   return(model)
 }
-
-
