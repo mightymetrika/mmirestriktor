@@ -15,7 +15,7 @@ that class): a symbolic description of the model to be fitted.}
 \item{engine}{A character string indicating which engine to use for model
 fitting. Can be one of "lm", "glm", "rlm". Default is "lm".}
 
-\item{standardize}{Logical. If TRUE, numeric variables in \code{data} are
+\item{standardize}{Logical. If TRUE, numeric predictor variables in \code{data} are
 standardized before fitting the model. Default is TRUE.}
 
 \item{...}{Additional arguments to be passed to the model fitting function
