@@ -17,6 +17,9 @@ FbarCards <- function(){
         # Action button to start/restart the game
         shiny::actionButton("start_game", "Start/Restart Game"),
 
+        # Action button to score the game
+        shiny::actionButton("score_game", "Score Game"),
+
         # Placeholder for swap UI elements (to be added dynamically based on difficulty level)
         shiny::uiOutput("swap_ui")
 
@@ -30,7 +33,8 @@ FbarCards <- function(){
 
         # Text output for displaying the game score and IHT interpretation
         shiny::verbatimTextOutput("game_score"),
-        shiny::htmlOutput("iht_interpretation")
+        shiny::verbatimTextOutput("score_interpretation")
+        #shiny::htmlOutput("iht_interpretation")
 
       )
     )
@@ -171,11 +175,18 @@ FbarCards <- function(){
         })
       })))
 
-      # Fit the unrestricted linear model
-      fit <- stats::lm(cards_df[[ncol(cards_df)]] ~ . - 1, data = cards_df)
+      # Convert the wide-format data frame to a long-format data frame
+      cards_df_long <- utils::stack(cards_df)
+      names(cards_df_long) <- c("Value", "Column")
 
-      # Construct the constraint string for IHT
-      constraint <- paste(rev(colnames(cards_df)[-ncol(cards_df)]), collapse = " < ")
+      # Convert the "Column" column to a factor
+      cards_df_long$Column <- factor(cards_df_long$Column, levels = names(cards_df))
+
+      # Fit the unrestricted linear model
+      fit <- stats::lm(Value ~ Column - 1, data = cards_df_long)
+
+      # Construct the constraint string for IHT using the levels of the 'Column' factor
+      constraint <- paste(paste0("Column", levels(cards_df_long$Column)), collapse = " < ")
 
       # Perform IHT
       iht_res <- restriktor::iht(fit, constraints = constraint)
@@ -184,7 +195,10 @@ FbarCards <- function(){
       score_interpretation <- iht_interpreter(iht_res)
 
       # Display the score interpretation
-      output$score_interpretation <- shiny::renderText({ score_interpretation })
+      output$score_interpretation <- shiny::renderText({
+        score_interpretation
+      })
+
     })
   }
 
