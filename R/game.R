@@ -25,28 +25,39 @@ FbarCards <- function(){
 
       ),
 
-      # Main panel for outputs
       shiny::mainPanel(
 
         # Table output for displaying the grid of cards
         shiny::tableOutput("cards_grid"),
 
-        # Text output for displaying the game score and IHT interpretation
-        shiny::verbatimTextOutput("game_score"),
-        shiny::verbatimTextOutput("score_interpretation")
-        #shiny::htmlOutput("iht_interpretation")
-
+        # Output for the conditional content (replacing the conditional panel)
+        shiny::uiOutput("conditional_content")
       )
     )
   )
 
   server <- function(input, output, session) {
 
+    # Reactive value to hold the score status of the game
+    game_scored <- shiny::reactiveVal(FALSE)
+
     # Reactive value to hold the swap status of each row
     row_swap_status <- shiny::reactiveVal()
 
     # Reactive value to hold the game state
     game_state <- shiny::reactiveVal()
+
+    # Define iht_res as a reactive variable at the beginning of your server function
+    iht_res <- shiny::reactiveVal(NULL)
+
+    # New reactive expression to hold the score interpretation
+    score_interpretation_reactive <- shiny::reactive({
+      # Get the IHT interpretation
+      if (is.null(iht_res())) return(NULL)
+
+      score_interpretation <- iht_interpreter(iht_res())
+      score_interpretation
+    })
 
     # Function to start/restart the game
     shiny::observeEvent(input$start_game, {
@@ -62,6 +73,9 @@ FbarCards <- function(){
 
       # Reset the row swap status to allow swapping for each row
       row_swap_status(rep(FALSE, n))
+
+      # Reset the game_scored reactive value to hide the conditional content
+      game_scored(FALSE)
     })
 
     # Dynamic UI for swap controls
@@ -189,19 +203,48 @@ FbarCards <- function(){
       constraint <- paste(paste0("Column", levels(cards_df_long$Column)), collapse = " < ")
 
       # Perform IHT
-      iht_res <- restriktor::iht(fit, constraints = constraint)
+      iht_result <- restriktor::iht(fit, constraints = constraint)
+      iht_res(iht_result)  # Update the reactive variable here
 
-      # Interpret the IHT result to score the game
-      score_interpretation <- iht_interpreter(iht_res)
-
-      # Display the score interpretation
+      # Updated score_interpretation output to use the new reactive expression
       output$score_interpretation <- shiny::renderText({
-        score_interpretation
+        score_interpretation_reactive()
       })
 
+      # Display the IHT results
+      output$iht_results <- shiny::renderPrint({
+        # Get the IHT results
+        iht_res()
+      })
+
+      # Set game_scored to TRUE indicating the game has been scored
+      game_scored(TRUE)
+
+    })
+
+    output$conditional_content <- shiny::renderUI({
+      if (game_scored()) {
+        # Get the score interpretation
+        score_interpretation <- score_interpretation_reactive()
+
+        # Check the winning condition
+        if (grepl("evidence in favor of the order-constrained hypothesis", score_interpretation)) {
+          game_result <- shiny::tags$h1(style = "color: green;", "You Win!")
+        } else {
+          game_result <- shiny::tags$h1(style = "color: red;", "You Lose!")
+        }
+
+        shiny::tagList(
+          shiny::h4("Informative Hypothesis Test Results"),
+          game_result, # Display the game result here
+          shiny::verbatimTextOutput("game_score"),
+          shiny::verbatimTextOutput("iht_results"),
+          shiny::h4("Informative Hypothesis Test Interpretation"),
+          shiny::verbatimTextOutput("score_interpretation")
+        )
+      }
     })
   }
 
   shiny::shinyApp(ui = ui, server = server)
-
 }
