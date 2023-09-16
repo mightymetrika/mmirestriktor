@@ -133,7 +133,8 @@ FbarCards <- function(){
         lapply(1:nrow(state$cards_grid), function(row) {
           shiny::fluidRow(
             lapply(1:ncol(state$cards_grid), function(col) {
-              shiny::column(width = 4,
+              shiny::column(width = floor(12 / nrow(state$cards_grid)),
+                            style = 'padding:0px;',
                             shiny::imageOutput(outputId = paste0("card_image_", row, "_", col))
               )
             })
@@ -206,14 +207,15 @@ FbarCards <- function(){
         for(col in 1:ncol(state$cards_grid)) {
           # Capture the current value of the icard attribute
           src <- state$cards_grid[[row, col]]$icard
-          print("print source before render image")
-          print(src)
 
           # Define a new function to create the image output
           create_image_output <- function(src, row, col) {
             output_id <- paste0("card_image_", row, "_", col)
+            force(src)
+            force(row)
+            force(col)
             output[[output_id]] <- shiny::renderImage({
-              list(src = src, contentType = "image/png", width = 100, height = 150)
+              list(src = src, contentType = "image/png", width = "100%", height = "auto")
             }, deleteFile = FALSE)
           }
 
