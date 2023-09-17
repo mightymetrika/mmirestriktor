@@ -1,6 +1,31 @@
+#' FbarCards Shiny App
+#'
+#' Launches a 'shiny' app for the FbarCards game. In this game, a grid of cards
+#' is displayed and the objective is to reorder the cards in each row such that,
+#' when the rows are stacked, the columns of cards are in increasing order from
+#' left to right. Players can swap the positions of two cards in the same row
+#' before finalizing their choices and scoring the game. The game utilizes
+#' Informative Hypothesis Testing (IHT) to score the final grid of cards.
+#'
+#' @description A shiny app for playing the FbarCards game, which is a puzzle
+#' game that requires players to arrange a grid of cards in a specific order to
+#' win. The game offers different levels of difficulty and provides instant
+#' feedback on the outcome after scoring.
+#'
+#' @return This function launches a shiny app and does not return a value.
+#'
+#' @examples
+#' if (interactive()) {
+#'   FbarCards()
+#' }
+#'
+#' @export
 FbarCards <- function(){
 
   ui <- shiny::fluidPage(
+
+    # Add shiny theme to UI
+    theme = shinythemes::shinytheme("united"),
 
     # Application title
     shiny::titlePanel("FBarCards Game"),
@@ -134,7 +159,8 @@ FbarCards <- function(){
           shiny::fluidRow(
             lapply(1:ncol(state$cards_grid), function(col) {
               shiny::column(width = floor(12 / nrow(state$cards_grid)),
-                            style = 'padding:0px;',
+                            style = 'padding:0px;
+                                     margin-bottom:-7em',
                             shiny::imageOutput(outputId = paste0("card_image_", row, "_", col))
               )
             })
@@ -215,7 +241,7 @@ FbarCards <- function(){
             force(row)
             force(col)
             output[[output_id]] <- shiny::renderImage({
-              list(src = src, contentType = "image/png", width = "100%", height = "auto")
+              list(src = src, contentType = "image/png", width=200, height="auto")
             }, deleteFile = FALSE)
           }
 
@@ -259,9 +285,9 @@ FbarCards <- function(){
       iht_result <- restriktor::iht(fit, constraints = constraint)
       iht_res(iht_result)  # Update the reactive variable here
 
-      # Updated score_interpretation output to use the new reactive expression
-      output$score_interpretation <- shiny::renderText({
-        score_interpretation_reactive()
+      # Get score_interpretation using the reactive expression
+      output$score_interpretation <- shiny::renderUI({
+        shiny::HTML(nl2br(score_interpretation_reactive()))
       })
 
       # Display the IHT results
@@ -293,7 +319,7 @@ FbarCards <- function(){
           shiny::verbatimTextOutput("game_score"),
           shiny::verbatimTextOutput("iht_results"),
           shiny::h4("Informative Hypothesis Test Interpretation"),
-          shiny::verbatimTextOutput("score_interpretation")
+          shiny::htmlOutput("score_interpretation")
         )
       }
     })
