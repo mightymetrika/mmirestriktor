@@ -2,7 +2,7 @@
 % Please edit documentation in R/app.R
 \name{mmirestriktor}
 \alias{mmirestriktor}
-\title{MMI Restrictor Shiny App}
+\title{Mighty Metrika Interface to Restriktor Shiny App}
 \usage{
 mmirestriktor()
 }
@@ -12,25 +12,24 @@ user's default web browser.
 }
 \description{
 This function launches a Shiny app which allows users to fit and analyze
-linear models with restrictions using the mmir_model(), restriktor::iht(),
-and restriktor::restriktor() functions. The app provides a user interface to
+models with restrictions using the mmir_model(), restriktor::iht(), and
+restriktor::restriktor() functions. The app provides a user interface to
 upload a CSV file, specify a model formula, and define constraints for
-hypothesis testing.
+informative hypothesis testing.
 }
 \details{
 The app has the following functionalities:
 \itemize{
 \item Upload a CSV file to be used as the dataset for modeling.
+\item View the variables available in the uploaded dataset.
 \item Input a formula to define the model to be fit.
 \item Choose a model fitting engine from "lm", "glm", and "rlm".
-\item Specify extra arguments for the model fitting function (currently not
-implemented in the UI).
+\item Specify extra arguments for the model fitting function.
+\item View the terms available for defining constraints after fitting the model.
 \item Define constraints for hypothesis testing.
 \item Set a significance level (alpha) for hypothesis testing.
-\item Choose the type of analysis to perform: Informative Hypothesis Test or
+\item Choose the type of analysis to perform: Informative Hypothesis Test and/or
 Restricted Means.
-\item View the variables available in the uploaded dataset.
-\item View the terms available for defining constraints after fitting the model.
 \item View the results and interpretation of the hypothesis tests after running
 the analysis.
 }

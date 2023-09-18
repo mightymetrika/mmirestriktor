@@ -1,29 +1,30 @@
-#' MMI Restrictor Shiny App
+#' Mighty Metrika Interface to Restriktor Shiny App
 #'
 #' This function launches a Shiny app which allows users to fit and analyze
-#' linear models with restrictions using the mmir_model(), restriktor::iht(),
-#' and restriktor::restriktor() functions. The app provides a user interface to
+#' models with restrictions using the mmir_model(), restriktor::iht(), and
+#' restriktor::restriktor() functions. The app provides a user interface to
 #' upload a CSV file, specify a model formula, and define constraints for
-#' hypothesis testing.
+#' informative hypothesis testing.
 #'
 #' The app has the following functionalities:
 #' - Upload a CSV file to be used as the dataset for modeling.
+#' - View the variables available in the uploaded dataset.
 #' - Input a formula to define the model to be fit.
 #' - Choose a model fitting engine from "lm", "glm", and "rlm".
-#' - Specify extra arguments for the model fitting function (currently not
-#'   implemented in the UI).
+#' - Specify extra arguments for the model fitting function.
+#' - View the terms available for defining constraints after fitting the model.
 #' - Define constraints for hypothesis testing.
 #' - Set a significance level (alpha) for hypothesis testing.
-#' - Choose the type of analysis to perform: Informative Hypothesis Test or
+#' - Choose the type of analysis to perform: Informative Hypothesis Test and/or
 #'   Restricted Means.
-#' - View the variables available in the uploaded dataset.
-#' - View the terms available for defining constraints after fitting the model.
 #' - View the results and interpretation of the hypothesis tests after running
 #'   the analysis.
 #'
 #' @return This function does not return a value; it launches a Shiny app in the
 #' user's default web browser.
+#'
 #' @export
+#'
 #' @examples
 #' if (interactive()){
 #'   mmirestriktor()

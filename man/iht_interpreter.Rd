@@ -2,12 +2,12 @@
 % Please edit documentation in R/interpreters.R
 \name{iht_interpreter}
 \alias{iht_interpreter}
-\title{Interpret Results of Informative Hypothesis Tests}
+\title{Interpret Results of Informative Hypothesis Test}
 \usage{
 iht_interpreter(iht_res, alpha = 0.05)
 }
 \arguments{
-\item{iht_res}{A \code{conTest} object containing the results of an informative
+\item{iht_res}{A 'conTest' object containing the results of an informative
 hypothesis test.}
 
 \item{alpha}{The significance level for interpreting the p-values. Default is

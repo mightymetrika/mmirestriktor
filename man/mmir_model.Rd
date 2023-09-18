@@ -7,15 +7,15 @@
 mmir_model(formula, data, engine = "lm", standardize = TRUE, ...)
 }
 \arguments{
-\item{formula}{An object of class \code{formula} (or one that can be coerced to
+\item{formula}{An object of class 'formula' (or one that can be coerced to
 that class): a symbolic description of the model to be fitted.}
 
 \item{data}{A data frame containing the variables in the model.}
 
 \item{engine}{A character string indicating which engine to use for model
-fitting. Can be one of "lm", "glm", "rlm". Default is "lm".}
+fitting. Can be one of 'lm', 'glm', or 'rlm'. Default is 'lm'.}
 
-\item{standardize}{Logical. If TRUE, numeric predictor variables in \code{data} are
+\item{standardize}{Logical. If TRUE, numeric predictor variables in 'data' are
 standardized before fitting the model. Default is TRUE.}
 
 \item{...}{Additional arguments to be passed to the model fitting function
@@ -26,13 +26,13 @@ An object representing the fitted model, of class 'lm', 'glm', or 'rlm'
 depending on the engine used.
 }
 \description{
-\code{mmir_model} is a function for the \code{mmirestriktor} package that fits
+mmir_model() is a function for the 'mmirestriktor' package that fits
 a model to data using one of the specified engines ('lm', 'glm', or 'rlm').
 It also provides an option to standardize numeric variables.
 }
 \details{
-The \code{mmir_model} function serves as a utility function for fitting models
-in the \code{mmirestriktor} package. It supports different modeling engines and
+The mmir_model() function serves as a utility function for fitting models
+in the 'mmirestriktor' package. It supports different modeling engines and
 allows for variable standardization.
 }
 \examples{

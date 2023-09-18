@@ -10,12 +10,6 @@ FbarCards()
 This function launches a shiny app and does not return a value.
 }
 \description{
-A shiny app for playing the FbarCards game, which is a puzzle
-game that requires players to arrange a grid of cards in a specific order to
-win. The game offers different levels of difficulty and provides instant
-feedback on the outcome after scoring.
-}
-\details{
 Launches a 'shiny' app for the FbarCards game. In this game, a grid of cards
 is displayed and the objective is to reorder the cards in each row such that,
 when the rows are stacked, the columns of cards are in increasing order from
