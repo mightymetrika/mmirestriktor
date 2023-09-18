@@ -1,20 +1,20 @@
 #' Deal Cards to Grid
 #'
-#' This function deals \(n^2\) cards from a specified or default deck to form
-#' an \(n\) x \(n\) grid. The remaining deck is also returned alongside the grid.
+#' This function deals n^2 cards from a specified or default deck to form
+#' an n x n grid. The remaining deck is also returned alongside the grid.
 #'
 #' @param deck A dataframe representing a deck of cards, with each row being a
 #' a card. The parameter is designed to take mmcards::shuffle_deck() or
 #' mmcards::i_deck() as input.
 #' @param n A single integer representing the number of rows and columns in the
-#' grid (i.e., the grid will be \(n\) x \(n\)). This parameter is required and
+#' grid (i.e., the grid will be n x n). This parameter is required and
 #' does not have a default value.
 #'
 #' @return A list containing two elements:
 #' \itemize{
-#'   \item `cards_matrix`: an \(n\) x \(n\) matrix where each element is a list
+#'   \item `cards_matrix`: an n x n matrix where each element is a list
 #'   representing a card.
-#'   \item `updated_deck`: a list representing the remaining deck after \(n^2\)
+#'   \item `updated_deck`: a list representing the remaining deck after n^2
 #'   cards have been dealt.
 #' }
 #'

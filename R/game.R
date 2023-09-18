@@ -7,11 +7,6 @@
 #' before finalizing their choices and scoring the game. The game utilizes
 #' Informative Hypothesis Testing (IHT) to score the final grid of cards.
 #'
-#' @description A shiny app for playing the FbarCards game, which is a puzzle
-#' game that requires players to arrange a grid of cards in a specific order to
-#' win. The game offers different levels of difficulty and provides instant
-#' feedback on the outcome after scoring.
-#'
 #' @return This function launches a shiny app and does not return a value.
 #'
 #' @examples
@@ -142,7 +137,7 @@ FbarCards <- function(){
       })
 
       # Return the swap UI elements as a list
-      do.call(tagList, swap_ui)
+      do.call(shiny::tagList, swap_ui)
     })
 
     # Display the grid of cards
@@ -221,7 +216,7 @@ FbarCards <- function(){
       }
     })
 
-    observe({
+    shiny::observe({
       # Get the game state
       state <- game_state()
 

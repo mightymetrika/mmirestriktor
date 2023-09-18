@@ -1,16 +1,16 @@
 #' Fit Restriktor Supported Model
 #'
 #' @description
-#' `mmir_model` is a function for the `mmirestriktor` package that fits
+#' mmir_model() is a function for the 'mmirestriktor' package that fits
 #' a model to data using one of the specified engines ('lm', 'glm', or 'rlm').
 #' It also provides an option to standardize numeric variables.
 #'
-#' @param formula An object of class `formula` (or one that can be coerced to
+#' @param formula An object of class 'formula' (or one that can be coerced to
 #' that class): a symbolic description of the model to be fitted.
 #' @param data A data frame containing the variables in the model.
 #' @param engine A character string indicating which engine to use for model
-#' fitting. Can be one of "lm", "glm", "rlm". Default is "lm".
-#' @param standardize Logical. If TRUE, numeric predictor variables in `data` are
+#' fitting. Can be one of 'lm', 'glm', or 'rlm'. Default is 'lm'.
+#' @param standardize Logical. If TRUE, numeric predictor variables in 'data' are
 #' standardized before fitting the model. Default is TRUE.
 #' @param ... Additional arguments to be passed to the model fitting function
 #' (lm, glm, or rlm).
@@ -20,8 +20,8 @@
 #' depending on the engine used.
 #'
 #' @details
-#' The `mmir_model` function serves as a utility function for fitting models
-#' in the `mmirestriktor` package. It supports different modeling engines and
+#' The mmir_model() function serves as a utility function for fitting models
+#' in the 'mmirestriktor' package. It supports different modeling engines and
 #' allows for variable standardization.
 #'
 #' @seealso

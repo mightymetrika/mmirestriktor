@@ -42,14 +42,3 @@ test_that("mmir_model returns error for invalid standardize value", {
   expect_error(mmir_model(mpg ~ hp + wt, data = mtcars, engine = "lm", standardize = "invalid_standardize"),
                "standardize is not a single boolean value")
 })
-
-# game_deck <- mmcards::shuffle_deck()
-# head(game_deck)
-#
-# game_deck <- mmcards::deal_card(game_deck)
-# game_deck$dealt_card
-# head(game_deck$updated_deck)
-#
-# game_deck <- mmcards::deal_card(game_deck)
-# game_deck$dealt_card
-# head(game_deck$updated_deck)

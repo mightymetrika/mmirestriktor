@@ -11,14 +11,16 @@ rm_interpreter(rm_res)
 to \code{\link[restriktor]{restriktor}}.}
 }
 \value{
-A character string with a detailed interpretation of the analysis
+A character string with an interpretation of the analysis
 results, including the R-squared values, their reduction, and the Generalized
 Order-Restricted Information Criterion (GORIC) if available.
 }
 \description{
 This function provides a human-readable interpretation of the results of a
 restricted means analysis. It compares the original (unconstrained) and
-reduced (restricted) R-squared values to evaluate the imposed constraints.
+reduced (restricted) R-squared values to evaluate the imposed constraints. It
+also returns the Generalized Order-Restricted Information Criterion (GORIC)
+which can be used for model comparison.
 }
 \examples{
 model <- mmir_model(mpg ~ -1 + hp + wt, data = mtcars, engine = "lm",
