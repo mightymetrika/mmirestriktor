@@ -27,15 +27,15 @@ Use the mmirestriktor() function to launch a ‘shiny’ application which
 runs informative hypothesis testing via restriktor::iht() and estimation
 of restricted estimates via restriktor::restriktor().
 
-The application has the following functionalities: - Upload a CSV file
-to be used as the dataset for modeling. - View the variables available
-in the uploaded dataset. - Input a formula to define the model to be
-fit. - Choose a model fitting engine from “lm”, “glm”, and “rlm”. - Pass
-extra arguments to the model fitting function. - View the terms
-available for defining constraints after fitting the model. - Define
-constraints for hypothesis testing. - Set a significance level (alpha)
-for hypothesis testing. - Choose the type of analysis to perform:
-Informative Hypothesis Test and/or Restricted Means. - View the results
+The application has the following functionalities: \* Upload a CSV file
+to be used as the dataset for modeling. \* View the variables available
+in the uploaded dataset. \* Input a formula to define the model to be
+fit. \* Choose a model fitting engine from “lm”, “glm”, and “rlm”. \*
+Pass extra arguments to the model fitting function. \* View the terms
+available for defining constraints after fitting the model. \* Define
+constraints for hypothesis testing. \* Set a significance level (alpha)
+for hypothesis testing. \* Choose the type of analysis to perform:
+Informative Hypothesis Test and/or Restricted Means. \* View the results
 and interpretation
 
 This version does not allow you to pass additional arguments to

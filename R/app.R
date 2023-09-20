@@ -68,6 +68,7 @@ mmirestriktor <- function(){
   )
 
   server <- function(input, output) {
+
     data <- shiny::reactive({
       shiny::req(input$file)
       utils::read.csv(input$file$datapath, row.names = NULL)
@@ -102,9 +103,7 @@ mmirestriktor <- function(){
       tryCatch({
         model <<- do.call(mmir_model, args_list)
         model_fitted(TRUE)  # Set the reactive value to TRUE after fitting the model
-        output$model_terms <- shiny::renderPrint({
-          names(stats::coef(model))
-        })
+        output$model_terms <- shiny::renderPrint({names(stats::coef(model))})
       }, error = function(e) {
         # Display the error message in the Shiny app
         shiny::showNotification(
@@ -123,13 +122,13 @@ mmirestriktor <- function(){
 
     output$variables_header <- shiny::renderUI({
       if(!is.null(data())){
-        shiny::tags$h2("Data Frame Variables")
+          shiny::tags$h2("Data Frame Variables")
       }
     })
 
     output$model_terms_header <- shiny::renderUI({
       if(model_fitted()){  # Use the reactive value to control the rendering of the header
-        shiny::tags$h2("Available Terms for Constraint")
+          shiny::tags$h2("Available Terms for Constraint")
       }
     })
 
@@ -142,14 +141,15 @@ mmirestriktor <- function(){
         tryCatch({
           iht_res <- restriktor::iht(model, constraints = constraint)
           output$iht_results <- shiny::renderPrint({iht_res})
+
           output$iht_interpretation <- shiny::renderUI({
-            shiny::HTML(nl2br(iht_interpreter(iht_res, alpha = input$alpha)))
+              shiny::HTML(nl2br(iht_interpreter(iht_res, alpha = input$alpha)))
           })
           output$iht_results_header <- shiny::renderUI({
-            shiny::tags$h2("Informative Hypothesis Test Results")
+              shiny::tags$h2("Informative Hypothesis Test Results")
           })
           output$iht_interpretation_header <- shiny::renderUI({
-            shiny::tags$h4("Informative Hypothesis Test Interpretation")
+              shiny::tags$h4("Informative Hypothesis Test Interpretation")
           })
         }, error = function(e) {
           # Display the error message in the Shiny app
@@ -166,13 +166,13 @@ mmirestriktor <- function(){
           rm_res <- restriktor::restriktor(model, constraints = constraint)
           output$rm_results <- shiny::renderPrint({summary(rm_res)})
           output$rm_interpretation <- shiny::renderUI({
-            shiny::HTML(nl2br(rm_interpreter(rm_res)))
+              shiny::HTML(nl2br(rm_interpreter(rm_res)))
           })
           output$rm_results_header <- shiny::renderUI({
-            shiny::tags$h2("Restricted Means Results")
+              shiny::tags$h2("Restricted Means Results")
           })
           output$rm_interpretation_header <- shiny::renderUI({
-            shiny::tags$h4("Restricted Means Interpretation")
+              shiny::tags$h4("Restricted Means Interpretation")
           })
         }, error = function(e) {
           # Display the error message in the Shiny app
