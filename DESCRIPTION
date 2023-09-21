@@ -1,10 +1,24 @@
 Package: mmirestriktor
-Title: What the Package Does (One Line, Title Case)
+Title: Informative Hypothesis Testing Web Applications and Tools
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Authors@R: c(
+    person("Mackson", "Ncube", , "macksonncube.stats@gmail.com", role = c("aut", "cre")),
+    person("mightymetrika, LLC", role = c("cph", "fnd"))
+  )
+Description: Informative hypothesis testing allows researchers to explicitly
+    model their expectations regarding the relationships among parameters,
+    offering enhanced statistical power compared to traditional methods. An
+    important software tool for informative hypothesis testing is 'restriktor'.
+    The 'mmirestriktor' package provides 'shiny' web applications to implement
+    some of the basic functionality of the 'restriktor' package; moreover,
+    'mmirestriktor' provides development tools for building 'shiny' web
+    applications on top of the 'restriktor' informative hypothesis testing
+    capabilities. The mmirestriktor() function launches a shiny web application
+    for fitting and analyzing models with constraints. The FbarCards() function
+    launches a 'shiny' application for a card game designed to build intuition
+    about informative hypothesis testing. The iht_interpreter() function helps
+    interpret informative hypothesis testing results based on guidelines
+    presented in Vanbrabant and Rosseel (2020) <doi:10.4324/9780429273872-14>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
