@@ -87,7 +87,7 @@ FbarCards <- function(){
 
       # Deal cards to the grid
       game_deck <- deal_cards_to_grid(deck = mmcards::i_deck(deck = mmcards::shuffle_deck(),
-                                                             i_path = "inst",
+                                                             i_path = "www",
                                                              i_names = c("2_of_clubs", "2_of_diamonds", "2_of_hearts", "2_of_spades",
                                                                          "3_of_clubs", "3_of_diamonds", "3_of_hearts", "3_of_spades",
                                                                          "4_of_clubs", "4_of_diamonds", "4_of_hearts", "4_of_spades",
@@ -236,7 +236,8 @@ FbarCards <- function(){
             force(row)
             force(col)
             output[[output_id]] <- shiny::renderImage({
-              list(src = src, contentType = "image/png", width=200, height="auto")
+              #list(src = src, contentType = "image/png", width=200, height="auto")
+              list(src = system.file(src, package = "mmirestriktor"), contentType = "image/png", width=200, height="auto")
             }, deleteFile = FALSE)
           }
 
