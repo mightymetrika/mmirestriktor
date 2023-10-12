@@ -13,8 +13,15 @@ building ‘shiny’ applications which use ‘restriktor’.
 
 ## Installation
 
+You can install the released version of ‘mmirestriktor’ from
+[CRAN](https://CRAN.R-project.org):
+
+``` r
+install.packages("mmirestriktor")
+```
+
 To install the development version of ‘mmirestriktor’ from GitHub, use
-the [‘devtools’](https://devtools.r-lib.org/) package:
+the [devtools](https://devtools.r-lib.org/) package:
 
 ``` r
 # install.packages("devtools")

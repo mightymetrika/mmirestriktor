@@ -21,10 +21,16 @@ knitr::opts_chunk$set(
 
 The goal of the Mighty Metrika Interface to Restriktor ('mmirestriktor') R package is to provide 'shiny' web applications built on top of ['restriktor'](https://restriktor.org/) and to provide tools for building 'shiny' applications which use 'restriktor'.
 
-
 ## Installation
 
-To install the development version of 'mmirestriktor' from GitHub, use the ['devtools'](https://devtools.r-lib.org/) package:
+You can install the released version of 'mmirestriktor' from [CRAN](https://CRAN.R-project.org):
+
+```{r eval=FALSE}
+install.packages("mmirestriktor")
+```
+
+
+To install the development version of 'mmirestriktor' from GitHub, use the [devtools](https://devtools.r-lib.org/) package:
 
 ```{r, eval=FALSE}
 # install.packages("devtools")
