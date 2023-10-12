@@ -5,20 +5,17 @@ Authors@R: c(
     person("Mackson", "Ncube", , "macksonncube.stats@gmail.com", role = c("aut", "cre")),
     person("mightymetrika, LLC", role = c("cph", "fnd"))
   )
-Description: Offering enhanced statistical power compared to traditional methods,
-    informative hypothesis testing allows researchers to explicitly model their
-    expectations regarding the relationships among parameters. An important
-    software tool for this framework is 'restriktor'. The 'mmirestriktor' package
-    provides 'shiny' web applications to implement some basic functionality of
-    'restriktor'; moreover, 'mmirestriktor' includes development tools for
-    building custom 'shiny' applications using 'restriktor'. The mmirestriktor()
-    function launches a 'shiny' application for fitting and analyzing models with
-    constraints. The FbarCards() function launches a card game application to
-    build intuition about informative hypothesis testing. The iht_interpreter()
-    helps interpret informative hypothesis testing results based on guidelines
-    in Vanbrabant and Rosseel (2020) <doi:10.4324/9780429273872-14>. Overall,
-    'mmirestriktor' facilitates leveraging the capabilities of 'restriktor' for
-    informative hypothesis testing via interactive web applications.
+Description: Offering enhanced statistical power compared to traditional
+    hypothesis testing methods, informative hypothesis testing allows researchers
+    to explicitly model their expectations regarding the relationships among
+    parameters. An important software tool for this framework is 'restriktor'.
+    The 'mmirestriktor' package provides 'shiny' web applications to implement
+    some of the basic functionality of 'restriktor'. The mmirestriktor() function
+    launches a 'shiny' application for fitting and analyzing models with
+    constraints. The FbarCards() function launches a card game application which
+    can help build intuition about informative hypothesis testing. The
+    iht_interpreter() helps interpret informative hypothesis testing results based
+    on guidelines in Vanbrabant and Rosseel (2020) <doi:10.4324/9780429273872-14>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
