@@ -77,7 +77,7 @@ generate_datasets <- function(S, k, f, n) {
     dataset <- lapply(1:k, function(x) {
       y <- means[x] + stats::rnorm(n, mean = 0, sd = 1)  # y_i = μ_j + e_i
       data.frame(
-        group = rep(x, n),
+        x = as.factor(rep(x, n)),
         y = y
       )
     })
@@ -85,5 +85,50 @@ generate_datasets <- function(S, k, f, n) {
   })
 
   return(datasets)
+}
+
+pj_pow <- function(df_list, constr = 0, alpha = 0.05){
+  # Number of groups
+  grps <- length(unique(df_list[[1]]$x))
+
+  # Check if 'constr' is a valid integer within the expected range
+  if (!is.numeric(constr) || constr %% 1 != 0 || constr < 0 || constr >= grps) {
+    stop("'constr' must be a non-negative integer less than the number of groups")
+  }
+
+
+  # Construct the constraint string based on the number of constraints
+  if (constr > 0) {
+    # Inequality constraints
+    cn <- paste0("x", grps, " > x", 1:constr, collapse = " & ")
+  } else {
+    # Equality constraints
+    cn <- paste0("x", 1:grps, collapse = " == ")
+  }
+
+  # Calculate power
+  pj_pow <- mean(sapply(df_list, function(df) {
+    # Run model
+    mod <- mmir_model(y ~ -1 + x, data = df, engine = "lm")
+    imod <- restriktor::iht(mod, constraints = cn)
+
+    # Check p-value based on the type of constraint
+    pval <- if (constr > 0) {
+      # For inequality constraints, use Type A and Type B p-values
+      imod[["B"]]$pvalue[1] >= alpha && imod[["A"]]$pvalue[1] <= alpha
+    } else {
+      # For equality constraints, use the regular F-test p-value
+      imod$pvalue
+    }
+
+    # Return power (as.integer for inequality, directly for equality)
+    if (constr > 0) {
+      as.integer(pval)
+    } else {
+      pval
+    }
+  }))
+
+  return(pj_pow)
 }
 
