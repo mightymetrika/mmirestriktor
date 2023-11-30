@@ -132,3 +132,51 @@ pj_pow <- function(df_list, constr = 0, alpha = 0.05){
   return(pj_pow)
 }
 
+
+sim_reg <- function(n, p, f2, rho, beta = 0.1) {
+
+  # Validate beta
+  if(length(beta) == 1) {
+    beta <- rep(beta, p)
+  } else if(length(beta) != p) {
+    stop("Length of beta must equal p")
+  }
+
+  # Rest of code remains the same
+
+  R2 <- f2/(1+f2)
+
+  Sigma <- matrix(rho, ncol = p, nrow = p)
+  diag(Sigma) <- 1
+
+  sigma2 <- (t(beta) %*% Sigma %*% beta) * (1 - R2)/R2
+
+  X <- MASS::mvrnorm(n, mu = rep(0, p), Sigma = Sigma)
+
+  e <- stats::rnorm(n, mean = 0, sd = sqrt(sigma2))
+
+  eta <- drop(X %*% beta)
+
+  y <- eta + e
+
+  return(list(y = y, X = X))
+}
+
+generate_datasets_reg <- function(S = 20000, n, p, f2, rho, beta = 0.1) {
+
+  datasets <- vector("list", S)
+
+  datasets <- lapply(1:S, function(x) {
+
+    sim_data <- sim_reg(n, p, f2, rho, beta)
+    as.data.frame(cbind(sim_data$y, sim_data$X))
+
+  })
+
+  names <- c("y", paste0("x", 1:p))
+  datasets <- lapply(datasets, stats::setNames, nm = names)
+
+  return(datasets)
+
+}
+
