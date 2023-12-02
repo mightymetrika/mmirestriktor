@@ -180,3 +180,47 @@ generate_datasets_reg <- function(S = 20000, n, p, f2, rho, beta = 0.1) {
 
 }
 
+lr_pow <- function(df_list, constr = 0, standardize = TRUE, alpha = 0.05){
+
+  # Number of variables
+  p <- ncol(df_list[[1]]) - 1
+
+  # Check if 'constr' is a valid integer within the expected range
+  if (!is.numeric(constr) || constr %% 1 != 0 || constr < 0 || constr > p) {
+    stop("'constr' must be a non-negative integer less than or equal to the number of independent variables")
+  }
+
+  # Standardize if requested
+  if(standardize) {
+    df_list <- lapply(df_list, function(df) {
+      df[,2:p] <- scale(df[,2:p])
+      df
+    })
+  }
+
+  # Construct constraints
+  if(constr > 0) {
+    cn <- paste0("x", p:constr, " >= 0", collapse=" & ")
+  } else {
+    cn <- paste0("x", 1:p, " == 0", collapse=" & ")
+  }
+
+  # Calculate power
+  lr_pow <- mean(sapply(df_list, function(df) {
+
+    mod <- stats::lm(paste0("y ~ ", paste0("x", 1:p, collapse=" + ")), data = df)
+    imod <- restriktor::iht(mod, constraints = cn)
+
+    if(constr > 0) {
+      imod[["B"]]$pvalue[1] >= alpha &&
+        imod[["A"]]$pvalue[1] <= alpha
+    } else {
+      imod$pvalue
+    }
+
+  }))
+
+  return(lr_pow)
+
+}
+
