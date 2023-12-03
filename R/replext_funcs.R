@@ -118,15 +118,15 @@ pj_pow <- function(df_list, constr = 0, alpha = 0.05){
       imod[["B"]]$pvalue[1] >= alpha && imod[["A"]]$pvalue[1] <= alpha
     } else {
       # For equality constraints, use the regular F-test p-value
-      imod$pvalue
+      imod$pvalue <= alpha
     }
 
-    # Return power (as.integer for inequality, directly for equality)
-    if (constr > 0) {
-      as.integer(pval)
-    } else {
-      pval
-    }
+    # # Return power (as.integer for inequality, directly for equality)
+    # if (constr > 0) {
+    #   as.integer(pval)
+    # } else {
+    #   as.integer(pval)
+    # }
   }))
 
   return(pj_pow)
@@ -215,7 +215,7 @@ lr_pow <- function(df_list, constr = 0, standardize = TRUE, alpha = 0.05){
       imod[["B"]]$pvalue[1] >= alpha &&
         imod[["A"]]$pvalue[1] <= alpha
     } else {
-      imod$pvalue
+      imod$pvalue <= alpha
     }
 
   }))
