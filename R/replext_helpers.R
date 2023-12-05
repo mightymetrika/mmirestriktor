@@ -12,7 +12,7 @@ getUIParams <- function(cellBlock) {
                                   shiny::textInput("constrs", "Vector of correctly specified order constraints:", "0,1,2"),
                                   shiny::numericInput("alpha", "Alpha level:", 0.05),
                                   shiny::textInput("pow", "Statistical power:", 0.80),
-                                  shiny::textInput("nmax", "Maximum sample size per group:", 1000)),
+                                  shiny::numericInput("nmax", "Maximum sample size per group:", 1000)),
          "replext_t2_c1" = list(shiny::numericInput("S", "Number of simulation iterations:", 20000),
                                 shiny::numericInput("p", "Number of variables:", 3),
                                 shiny::textInput("f2s", "Vector of effect sizes:", "0.02,0.05,0.08,0.10,0.15,0.20,0.25,0.35"),
@@ -23,7 +23,7 @@ getUIParams <- function(cellBlock) {
                                 shiny::numericInput("alpha", "Alpha level:", 0.05),
                                 shiny::textInput("pow", "Statistical power:", 0.80),
                                 shiny::checkboxInput("standardize", "Standardize variables", value = TRUE),
-                                shiny::textInput("nmax", "Maximum sample size per group:", 1000))
+                                shiny::numericInput("nmax", "Maximum sample size per group:", 1000))
 
   )
 }
