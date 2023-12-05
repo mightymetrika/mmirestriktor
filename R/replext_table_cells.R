@@ -5,7 +5,7 @@ replext_t1_c1 <- function(S = 20000, k = 3,
   # Vectorized function to find the minimum sample size for a given power and effect size
   find_min_sample_size <- function(f, constr) {
     n <- n_start
-    current_power <- 0
+    current_power <- 0.0
     while (current_power < pow && n <= nmax) {
       datasets <- generate_datasets(S, k, f, n)
       current_power <- pj_pow(datasets, constr, alpha)
@@ -16,6 +16,7 @@ replext_t1_c1 <- function(S = 20000, k = 3,
     }
     return(NA)
   }
+
 
   # Create a matrix for sample sizes using outer
   sample_sizes <- outer(fs, constrs, Vectorize(find_min_sample_size))
