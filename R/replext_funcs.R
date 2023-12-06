@@ -11,6 +11,12 @@
 #'
 #' @return A numeric value representing the equally spaced difference, d, based
 #' on the number of groups (k) and the effect size (f).
+#'
+#' @references
+#' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+#' statistical inference: sample-size tables for ANOVA and regression. Frontiers
+#' in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+#' URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
 #' @export
 #'
 #' @examples
@@ -32,6 +38,12 @@ d_eq_spaced <- function(k, f){
 #'
 #' @return A numeric vector containing the means of the groups. Each element of
 #' the vector corresponds to a group mean.
+#'
+#' @references
+#' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+#' statistical inference: sample-size tables for ANOVA and regression. Frontiers
+#' in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+#' URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
 #' @export
 #'
 #' @examples
@@ -61,7 +73,10 @@ mui <- function(k, f){
 #' @export
 #'
 #' @references
-#' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained statistical inference: sample-size tables for ANOVA and regression. Frontiers in Psychology, 5. DOI:10.3389/fpsyg.2014.01565. URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
+#' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+#' statistical inference: sample-size tables for ANOVA and regression. Frontiers
+#' in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+#' URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
 #'
 #' @examples
 #' generate_datasets(S = 2, k = 4, f = 0.25, n = 30)
@@ -87,6 +102,43 @@ generate_datasets <- function(S, k, f, n) {
   return(datasets)
 }
 
+#' Power Calculation for ANOVA Simulation
+#'
+#' This function calculates the power for hypothesis tests in a constrained
+#' statistical inference setting, particularly in the context of ANOVA and regression
+#' as discussed in Vanbrabant et al. (2015). It is designed to work with a list of
+#' data frames, where each data frame represents a different dataset. The function
+#' accommodates both equality and inequality constraints.
+#'
+#' @param df_list A list of data frames, each representing a dataset. Designed to
+#'   use results generated from the generate_datasets() function.
+#' @param constr An integer indicating the number of inequality constraints.
+#'   A value of 0 indicates that all constraints are equality constraints.
+#'   The value must be a non-negative integer less than the number of groups.
+#' @param alpha The significance level used in the hypothesis testing, with a
+#'   default value of 0.05. It should be a numeric value between 0 and 1.
+#'
+#' @return The function returns the calculated power as a numeric value,
+#'   representing the proportion of p-values smaller than the predefined
+#'   significance level alpha.
+#'
+#' @details The function first checks the validity of the 'constr' parameter and
+#'   then constructs the constraint string based on the number of constraints.
+#'   It runs the model for each dataset in the df_list using the mmir_model function
+#'   and applies the constraints using the restriktor::iht function. The power is
+#'   calculated based on the proportion of datasets that meet the hypothesis test
+#'   criteria defined by the constraints and the significance level.
+#'
+#' @references
+#' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+#' statistical inference: sample-size tables for ANOVA and regression. Frontiers
+#' in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+#' URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
+#'
+#' @examples
+#' generate_datasets(S = 2, k = 4, f = 0.25, n = 30) |> pj_pow(constr=1)
+#'
+#' @export
 pj_pow <- function(df_list, constr = 0, alpha = 0.05){
   # Number of groups
   grps <- length(unique(df_list[[1]]$x))
@@ -120,19 +172,50 @@ pj_pow <- function(df_list, constr = 0, alpha = 0.05){
       # For equality constraints, use the regular F-test p-value
       imod$pvalue <= alpha
     }
-
-    # # Return power (as.integer for inequality, directly for equality)
-    # if (constr > 0) {
-    #   as.integer(pval)
-    # } else {
-    #   as.integer(pval)
-    # }
   }))
 
   return(pj_pow)
 }
 
-
+#' Regression Data Simulation for Linear Models
+#'
+#' This function simulates data for linear regression analysis, as described in the
+#' supplemental material of the referenced paper. It generates datasets with a
+#' specified number of predictors and sample size, effect size, and correlation
+#' coefficient, considering a linear model with fixed regression coefficients.
+#'
+#' @param n The total number of observations to generate.
+#' @param p The number of predictors (β) in the regression model.
+#' @param f2 The effect size, calculated as \( f^2 = R^2 / (1 - R^2) \), where
+#'   \( R^2 \) is the coefficient of determination.
+#' @param rho The correlation coefficient between predictors, representing the
+#'   off-diagonal elements in the covariance matrix ΣX. Should be a numeric
+#'   value.
+#' @param beta The regression coefficients, either a single value replicated for
+#'   each predictor or a vector of length equal to the number of predictors \( p \).
+#'
+#' @return A list containing two elements: 'y', the simulated response variable,
+#'   and 'X', the matrix of predictors.
+#'
+#' @details The function validates the length of the beta vector, constructs a
+#'   covariance matrix for the predictors, and calculates the variance of the error
+#'   term. It then uses the multivariate normal distribution to generate predictor
+#'   values and calculates the response variable based on the specified regression
+#'   coefficients and effect size.
+#'
+#' @references
+#' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+#' statistical inference: sample-size tables for ANOVA and regression. Frontiers
+#' in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+#' URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
+#'
+#' @examples
+#' # Example usage:
+#' # Simulate data for a regression model with 100 observations, 3 predictors,
+#' # an effect size of 0.10, and a correlation coefficient of 0.5
+#' sim_reg(n = 100, p = 3, f2 = 0.10, rho = 0.5)
+#'
+#' @export
 sim_reg <- function(n, p, f2, rho, beta = 0.1) {
 
   # Validate beta
@@ -162,6 +245,39 @@ sim_reg <- function(n, p, f2, rho, beta = 0.1) {
   return(list(y = y, X = X))
 }
 
+#' Generate Multiple Datasets for Regression Simulation
+#'
+#' This function generates a specified number of datasets for regression analysis
+#' simulations. Each dataset is generated using the `sim_reg` function, based on
+#' given parameters like sample size, number of predictors, effect size, and
+#' correlation coefficient.
+#'
+#' @param S The number of datasets to generate, default is 20000.
+#' @param n The number of observations in each dataset.
+#' @param p The number of predictors in the regression model for each dataset.
+#' @param f2 The effect size for each dataset, defined as \( f^2 = R^2 / (1 - R^2) \).
+#' @param rho The correlation coefficient between predictors in each dataset.
+#' @param beta The regression coefficients for the predictors in each dataset,
+#'   either as a single value or a vector of length \( p \).
+#'
+#' @return A list of data frames, each representing a simulated dataset for
+#'   regression analysis. Each data frame contains columns for the response
+#'   variable 'y' and predictors 'x1', 'x2', ..., 'xp'.
+#'
+#' @details The function uses `sim_reg` to simulate individual datasets, which
+#'   are then combined into a list. Each dataset is a data frame with named
+#'   columns for the response variable and predictors.
+#'
+#' @references
+#' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+#' statistical inference: sample-size tables for ANOVA and regression. Frontiers
+#' in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+#' URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
+#'
+#' @examples
+#' datasets <- generate_datasets_reg(S = 2, n = 50, p = 3, f2 = 0.10, rho = 0.5)
+#'
+#' @export
 generate_datasets_reg <- function(S = 20000, n, p, f2, rho, beta = 0.1) {
 
   datasets <- vector("list", S)
@@ -180,6 +296,43 @@ generate_datasets_reg <- function(S = 20000, n, p, f2, rho, beta = 0.1) {
 
 }
 
+#' Calculate Power for Linear Regression Simulations
+#'
+#' This function computes the power of hypothesis tests in a linear regression
+#' setting, considering constraints on the regression coefficients. It processes a
+#' list of data frames, each representing a different dataset, and calculates the
+#' power based on specified constraints.
+#'
+#' @param df_list A list of data frames, each representing a dataset for regression
+#'   analysis. Each data frame should contain the response variable 'y' and the
+#'   predictor variables 'x1', 'x2', ..., 'xp'.
+#' @param constr The number of inequality constraints imposed on the regression
+#'   coefficients. It must be a non-negative integer less than or equal to the number
+#'   of predictors (p). A value of 0 implies no constraints or equality constraints.
+#' @param standardize A logical value indicating whether the predictor variables
+#'   should be standardized before fitting the model. Default is TRUE.
+#' @param alpha The significance level used in hypothesis testing, default is 0.05.
+#'
+#' @return A numeric value representing the calculated power, defined as the
+#'   proportion of datasets meeting the hypothesis test criteria as defined by
+#'   the constraints and significance level.
+#'
+#' @details The function validates the 'constr' parameter, optionally standardizes
+#'   the predictor variables, constructs the necessary constraints, and calculates
+#'   power by fitting a linear model to each dataset. It uses the 'iht' function
+#'   from the 'restriktor' package to apply the constraints and evaluate the
+#'   hypothesis tests.
+#'
+#' @references
+#' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+#' statistical inference: sample-size tables for ANOVA and regression. Frontiers
+#' in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+#' URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
+#'
+#' @examples
+#' generate_datasets_reg(S = 4, n = 30, p = 3, f2 = 0.20, rho = 0.5) |> lr_pow()
+#'
+#' @export
 lr_pow <- function(df_list, constr = 0, standardize = TRUE, alpha = 0.05){
 
   # Number of variables

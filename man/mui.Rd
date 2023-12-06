@@ -25,3 +25,9 @@ follows the approach described in Vanbrabant et al. (2015).
 \examples{
 mui(4, 0.25) # For k = 4 and f = 0.25
 }
+\references{
+Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+statistical inference: sample-size tables for ANOVA and regression. Frontiers
+in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
+}
