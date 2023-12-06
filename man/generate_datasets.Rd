@@ -31,5 +31,8 @@ and Rosseel (2015).
 generate_datasets(S = 2, k = 4, f = 0.25, n = 30)
 }
 \references{
-Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained statistical inference: sample-size tables for ANOVA and regression. Frontiers in Psychology, 5. DOI:10.3389/fpsyg.2014.01565. URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
+Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
+statistical inference: sample-size tables for ANOVA and regression. Frontiers
+in Psychology, 5. DOI:10.3389/fpsyg.2014.01565.
+URL: https://www.frontiersin.org/articles/10.3389/fpsyg.2014.01565
 }
