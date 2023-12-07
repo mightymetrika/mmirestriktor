@@ -185,14 +185,14 @@ pj_pow <- function(df_list, constr = 0, alpha = 0.05){
 #' coefficient, considering a linear model with fixed regression coefficients.
 #'
 #' @param n The total number of observations to generate.
-#' @param p The number of predictors (β) in the regression model.
-#' @param f2 The effect size, calculated as \( f^2 = R^2 / (1 - R^2) \), where
-#'   \( R^2 \) is the coefficient of determination.
+#' @param p The number of predictors (Beta) in the regression model.
+#' @param f2 The effect size, calculated as (f^2 = R^2 / (1 - R^2)), where
+#'   ( R^2) is the coefficient of determination.
 #' @param rho The correlation coefficient between predictors, representing the
-#'   off-diagonal elements in the covariance matrix ΣX. Should be a numeric
+#'   off-diagonal elements in the covariance matrix. Should be a numeric
 #'   value.
 #' @param beta The regression coefficients, either a single value replicated for
-#'   each predictor or a vector of length equal to the number of predictors \( p \).
+#'   each predictor or a vector of length equal to the number of predictors (p).
 #'
 #' @return A list containing two elements: 'y', the simulated response variable,
 #'   and 'X', the matrix of predictors.
@@ -255,10 +255,10 @@ sim_reg <- function(n, p, f2, rho, beta = 0.1) {
 #' @param S The number of datasets to generate, default is 20000.
 #' @param n The number of observations in each dataset.
 #' @param p The number of predictors in the regression model for each dataset.
-#' @param f2 The effect size for each dataset, defined as \( f^2 = R^2 / (1 - R^2) \).
+#' @param f2 The effect size for each dataset, defined as (f^2 = R^2 / (1 - R^2)).
 #' @param rho The correlation coefficient between predictors in each dataset.
 #' @param beta The regression coefficients for the predictors in each dataset,
-#'   either as a single value or a vector of length \( p \).
+#'   either as a single value or a vector of length (p).
 #'
 #' @return A list of data frames, each representing a simulated dataset for
 #'   regression analysis. Each data frame contains columns for the response

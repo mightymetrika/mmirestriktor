@@ -13,12 +13,12 @@ generate_datasets_reg(S = 20000, n, p, f2, rho, beta = 0.1)
 
 \item{p}{The number of predictors in the regression model for each dataset.}
 
-\item{f2}{The effect size for each dataset, defined as \( f^2 = R^2 / (1 - R^2) \).}
+\item{f2}{The effect size for each dataset, defined as (f^2 = R^2 / (1 - R^2)).}
 
 \item{rho}{The correlation coefficient between predictors in each dataset.}
 
 \item{beta}{The regression coefficients for the predictors in each dataset,
-either as a single value or a vector of length \( p \).}
+either as a single value or a vector of length (p).}
 }
 \value{
 A list of data frames, each representing a simulated dataset for
