@@ -9,17 +9,17 @@ sim_reg(n, p, f2, rho, beta = 0.1)
 \arguments{
 \item{n}{The total number of observations to generate.}
 
-\item{p}{The number of predictors (β) in the regression model.}
+\item{p}{The number of predictors (Beta) in the regression model.}
 
-\item{f2}{The effect size, calculated as \( f^2 = R^2 / (1 - R^2) \), where
-\( R^2 \) is the coefficient of determination.}
+\item{f2}{The effect size, calculated as (f^2 = R^2 / (1 - R^2)), where
+( R^2) is the coefficient of determination.}
 
 \item{rho}{The correlation coefficient between predictors, representing the
-off-diagonal elements in the covariance matrix ΣX. Should be a numeric
+off-diagonal elements in the covariance matrix. Should be a numeric
 value.}
 
 \item{beta}{The regression coefficients, either a single value replicated for
-each predictor or a vector of length equal to the number of predictors \( p \).}
+each predictor or a vector of length equal to the number of predictors (p).}
 }
 \value{
 A list containing two elements: 'y', the simulated response variable,
