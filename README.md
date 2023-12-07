@@ -69,7 +69,7 @@ are in increasing order from left to right.
 
 To play this game you:
 
-1)  Choose a difficulty level n (from n = 3 to n = 7)
+1)  Choose a difficulty level n (from n =3 to n =7)
 2)  Click Start Game to deal an n x n grid of cards from a 52 card
     standard deck
 3)  Within each row you can either swap 2 cards or leave the row as is
@@ -80,7 +80,7 @@ dataframe with the variables Value (the value of each card) and Column
 (the cards column number on the final grid). Column is treated as a
 factor variable in a stats::lm() model with the formula:
 
-formula = Value \~ -1 + Column
+formula = Value ~ -1 + Column
 
 If, for example, the game was set to n = 4, then the informative
 hypothesis testing constraint would be:

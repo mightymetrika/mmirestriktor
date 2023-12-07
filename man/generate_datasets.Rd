@@ -24,7 +24,7 @@ the dependent variable generated according to the model.
 This function generates a specified number of datasets for use in ANOVA
 simulations.Each dataset is generated based on a specified number of groups,
 effect size, and sample size per group. The data generation follows the model:
-yi = μ1xi1 + ... + μkxik + ei, as described in Vanbrabant, Van De Schoot,
+yi = mu1xi1 + ... + mukxik + ei, as described in Vanbrabant, Van De Schoot,
 and Rosseel (2015).
 }
 \examples{
