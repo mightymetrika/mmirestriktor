@@ -46,7 +46,7 @@ mmirestriktor <- function(){
       ),
       shiny::mainPanel(
         shiny::uiOutput("variables_header"),
-        shiny::verbatimTextOutput("variables"),
+        DT::dataTableOutput("variables_table"),
         shiny::uiOutput("model_terms_header"),
         shiny::verbatimTextOutput("model_terms"),
         shiny::conditionalPanel(
@@ -69,17 +69,21 @@ mmirestriktor <- function(){
 
   server <- function(input, output) {
 
-    data <- shiny::reactive({
+    # Reactive: Read the uploaded CSV file
+    uploaded_data <- shiny::reactiveVal()
+
+    shiny::observe({
       shiny::req(input$file)
-      utils::read.csv(input$file$datapath, row.names = NULL)
+      df <- utils::read.csv(input$file$datapath, row.names = NULL)
+      uploaded_data(df)
     })
 
     model <- NULL
     model_fitted <- shiny::reactiveVal(FALSE)  # Create a reactive value to track the model fitting status
 
     shiny::observeEvent(input$fit_model, {
-      shiny::req(input$formula, data(), input$engine)
-      args_list <- list(formula = stats::as.formula(input$formula), data = data(), engine = input$engine, standardize = TRUE)
+      shiny::req(input$formula, uploaded_data(), input$engine)
+      args_list <- list(formula = stats::as.formula(input$formula), data = uploaded_data(), engine = input$engine, standardize = TRUE)
 
       # If the user has provided extra arguments, add them to args_list
       if (nzchar(input$args)) {
@@ -116,12 +120,52 @@ mmirestriktor <- function(){
       })
     })
 
-    output$variables <- shiny::renderPrint({
-      names(data())
+    # Display Available Variables
+    output$variables_table <- DT::renderDataTable({
+      shiny::req(uploaded_data())
+      df <- uploaded_data()
+      df2 <- data.frame(Variable = names(df), Type = sapply(df, class))
+      DT::datatable(df2, editable = 'cell', options = list(pageLength = 5),
+                    rownames = FALSE)
+    })
+
+    # Edit variable types
+    shiny::observeEvent(input$variables_table_cell_edit, {
+      info <- input$variables_table_cell_edit
+      shiny::req(uploaded_data())
+      df <- uploaded_data()
+
+      row_number <- info$row
+      new_value <- info$value
+
+      if (info$col == 1) {  # Assuming the 'Type' column has index 1 (i.e., rownames = FALSE)
+        variable_name <- names(df)[row_number]  # Fetch the variable name using row_number
+        tryCatch({
+          if (new_value == "factor") {
+            df[[variable_name]] <- as.factor(df[[variable_name]])
+          } else if (new_value == "numeric") {
+            df[[variable_name]] <- as.numeric(df[[variable_name]])
+          } else if (new_value == "integer") {
+            df[[variable_name]] <- as.integer(df[[variable_name]])
+          } else if (new_value == "double") {
+            df[[variable_name]] <- as.double(df[[variable_name]])
+          } else if (new_value == "character") {
+            df[[variable_name]] <- as.character(df[[variable_name]])
+          }
+          # Update the reactive data frame
+          uploaded_data(df)
+        }, error = function(e) {
+          shiny::showNotification(
+            paste("Error in changing data type:", e$message),
+            type = "error",
+            duration = NULL
+          )
+        })
+      }
     })
 
     output$variables_header <- shiny::renderUI({
-      if(!is.null(data())){
+      if(!is.null(uploaded_data())){
           shiny::tags$h2("Data Frame Variables")
       }
     })
