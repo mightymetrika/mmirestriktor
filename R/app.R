@@ -138,6 +138,20 @@ mmirestriktor <- function(){
       row_number <- info$row
       new_value <- info$value
 
+      if (info$col == 0){
+        tryCatch({
+          names(df)[row_number] <- new_value
+          # Update the reactive data frame
+          uploaded_data(df)
+        }, error = function(e) {
+          shiny::showNotification(
+            paste("Error in changing variable name:", e$message),
+            type = "error",
+            duration = NULL
+          )
+        })
+      }
+
       if (info$col == 1) {  # Assuming the 'Type' column has index 1 (i.e., rownames = FALSE)
         variable_name <- names(df)[row_number]  # Fetch the variable name using row_number
         tryCatch({
@@ -151,6 +165,8 @@ mmirestriktor <- function(){
             df[[variable_name]] <- as.double(df[[variable_name]])
           } else if (new_value == "character") {
             df[[variable_name]] <- as.character(df[[variable_name]])
+          } else {
+            stop("New data type must be one of the following: factor, numeric, integer, double, character")
           }
           # Update the reactive data frame
           uploaded_data(df)
