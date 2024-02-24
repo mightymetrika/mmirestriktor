@@ -41,17 +41,17 @@ getCellBlocks <- function(){
 #' @keywords internal
 getUIParams <- function(cellBlock) {
   switch(cellBlock,
-         "replext_t1_c1" = list(shiny::numericInput("S", "Number of simulation iterations:", 20000),
-                                  shiny::numericInput("k", "Number of groups:", 3),
-                                  shiny::textInput("fs", "Vector of population mean differences:", "0.10,0.15,0.20,0.25,0.30,0.35,0.40"),
-                                  shiny::numericInput("n_start", "Starting sample size per group:", 6),
-                                  shiny::textInput("constrs", "Vector of correctly specified order constraints:", "0,1,2"),
-                                  shiny::numericInput("alpha", "Alpha level:", 0.05),
-                                  shiny::textInput("pow", "Statistical power:", 0.80),
-                                  shiny::numericInput("nmax", "Maximum sample size per group:", 1000)),
-         "replext_t2_c1" = list(shiny::numericInput("S", "Number of simulation iterations:", 20000),
+         "replext_t1_c1" = list(shiny::numericInput("S", "Number of simulation iterations:", 10),
+                                shiny::numericInput("k", "Number of groups:", 3),
+                                shiny::textInput("fs", "Vector of population mean differences:", "0.10"),
+                                shiny::numericInput("n_start", "Starting sample size per group:", 6),
+                                shiny::textInput("constrs", "Vector of correctly specified order constraints:", "0,1,2"),
+                                shiny::numericInput("alpha", "Alpha level:", 0.05),
+                                shiny::textInput("pow", "Statistical power:", 0.80),
+                                shiny::numericInput("nmax", "Maximum sample size per group:", 1000)),
+         "replext_t2_c1" = list(shiny::numericInput("S", "Number of simulation iterations:", 10),
                                 shiny::numericInput("p", "Number of variables:", 3),
-                                shiny::textInput("f2s", "Vector of effect sizes:", "0.02,0.05,0.08,0.10,0.15,0.20,0.25,0.35"),
+                                shiny::textInput("f2s", "Vector of effect sizes:", "0.02"),
                                 shiny::numericInput("n_start", "Starting sample size per group:", 6),
                                 shiny::textInput("constrs", "Vector of correctly specified inequality:", "0,1,2,3"),
                                 shiny::numericInput("rho", "Correlation among independent variables:", 0.0),
@@ -63,6 +63,31 @@ getUIParams <- function(cellBlock) {
 
   )
 }
+
+# getUIParams <- function(cellBlock) {
+#   switch(cellBlock,
+#          "replext_t1_c1" = list(shiny::numericInput("S", "Number of simulation iterations:", 20000),
+#                                   shiny::numericInput("k", "Number of groups:", 3),
+#                                   shiny::textInput("fs", "Vector of population mean differences:", "0.10,0.15,0.20,0.25,0.30,0.35,0.40"),
+#                                   shiny::numericInput("n_start", "Starting sample size per group:", 6),
+#                                   shiny::textInput("constrs", "Vector of correctly specified order constraints:", "0,1,2"),
+#                                   shiny::numericInput("alpha", "Alpha level:", 0.05),
+#                                   shiny::textInput("pow", "Statistical power:", 0.80),
+#                                   shiny::numericInput("nmax", "Maximum sample size per group:", 1000)),
+#          "replext_t2_c1" = list(shiny::numericInput("S", "Number of simulation iterations:", 20000),
+#                                 shiny::numericInput("p", "Number of variables:", 3),
+#                                 shiny::textInput("f2s", "Vector of effect sizes:", "0.02,0.05,0.08,0.10,0.15,0.20,0.25,0.35"),
+#                                 shiny::numericInput("n_start", "Starting sample size per group:", 6),
+#                                 shiny::textInput("constrs", "Vector of correctly specified inequality:", "0,1,2,3"),
+#                                 shiny::numericInput("rho", "Correlation among independent variables:", 0.0),
+#                                 shiny::textInput("beta", "Vector of regression coefficients:", "0.1"),
+#                                 shiny::numericInput("alpha", "Alpha level:", 0.05),
+#                                 shiny::textInput("pow", "Statistical power:", 0.80),
+#                                 shiny::checkboxInput("standardize", "Standardize variables", value = TRUE),
+#                                 shiny::numericInput("nmax", "Maximum sample size per group:", 1000))
+#
+#   )
+# }
 
 #' Append Input Parameters to Simulation Results
 #'
