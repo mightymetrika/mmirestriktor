@@ -17,7 +17,6 @@
 #' Evaluating informative hypotheses for linear models. In R. van de Schoot & M.
 #' Miocevic (Eds.), Small Sample Size Solutions: A Guide for Applied Researchers
 #' and Practitioners (1st ed., pp. 157 -172). Routledge.
-#' https://doi.org/10.4324/9780429273872-14
 #'
 #' @examples
 #' model <- mmir_model(mpg ~ -1 + hp + wt, data = mtcars, engine = "lm",
@@ -76,7 +75,9 @@ iht_interpreter <- function(iht_res, alpha=0.05) {
 #' @seealso \code{\link[restriktor]{restriktor}} for generating 'restriktor' objects.
 #'
 #' @references
-#' Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor: Evaluating informative hypotheses for linear models. In Small Sample Size Solutions (1st ed., p. 16). Routledge. \url{https://www.taylorfrancis.com/chapters/oa-edit/10.4324/9780429273872-14/introduction-restriktor-leonard-vanbrabant-yves-rosseel}
+#' Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor: Evaluating
+#' informative hypotheses for linear models. In Small Sample Size Solutions (1st
+#' ed., p. 16). Routledge.
 #'
 #'
 #' @examples

@@ -1,0 +1,30 @@
+-- Table: public.mmir_data
+
+-- DROP TABLE IF EXISTS public.mmir_data;
+
+CREATE TABLE IF NOT EXISTS public.mmir_data
+(
+    nconstr text COLLATE pg_catalog."default",
+    nf integer,
+    nf2 integer,
+    type_i_error real,
+    s integer,
+    k integer,
+    p integer,
+    fs real,
+    f2s real,
+    n_start integer,
+    constrs text COLLATE pg_catalog."default",
+    rho real,
+    beta text COLLATE pg_catalog."default",
+    alpha real,
+    pow real,
+    nmax integer,
+    standardize boolean,
+    runcode text COLLATE pg_catalog."default"
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.mmir_data
+    OWNER to postgres;

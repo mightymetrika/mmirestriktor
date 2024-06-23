@@ -102,4 +102,3 @@ Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor:
 Evaluating informative hypotheses for linear models. In R. van de Schoot
 & M. Miocevic (Eds.), Small Sample Size Solutions: A Guide for Applied
 Researchers and Practitioners (1st ed., pp. 157 -172). Routledge.
-<https://doi.org/10.4324/9780429273872-14>

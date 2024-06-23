@@ -30,7 +30,9 @@ rm_interpreter(rm_res) |> cat()
 
 }
 \references{
-Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor: Evaluating informative hypotheses for linear models. In Small Sample Size Solutions (1st ed., p. 16). Routledge. \url{https://www.taylorfrancis.com/chapters/oa-edit/10.4324/9780429273872-14/introduction-restriktor-leonard-vanbrabant-yves-rosseel}
+Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor: Evaluating
+informative hypotheses for linear models. In Small Sample Size Solutions (1st
+ed., p. 16). Routledge.
 }
 \seealso{
 \code{\link[restriktor]{restriktor}} for generating 'restriktor' objects.
