@@ -6,6 +6,9 @@
 \usage{
 replext()
 }
+\value{
+A Shiny app object which can be run to start the application.
+}
 \description{
 This function creates and launches a Shiny web application for running
 simulations related to constrained statistical inference in ANOVA and regression

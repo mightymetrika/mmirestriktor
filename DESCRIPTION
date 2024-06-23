@@ -26,7 +26,9 @@ Imports:
     DT,
     MASS,
     mmcards,
+    pool,
     restriktor,
+    RPostgres,
     shiny,
     shinythemes
 Suggests: 

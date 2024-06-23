@@ -22,6 +22,8 @@
 #'   - Running simulations and storing results.
 #'   - Rendering and exporting the results table.
 #'
+#' @return A Shiny app object which can be run to start the application.
+#'
 #' @references
 #' Vanbrabant, Leonard; Van De Schoot, Rens; Rosseel, Yves (2015). Constrained
 #' statistical inference: sample-size tables for ANOVA and regression. Frontiers
