@@ -42,7 +42,8 @@ mmirestriktor <- function(){
         shiny::textAreaInput("constraint", "Constraint", rows = 3),
         shiny::numericInput("alpha", "Significance Level (alpha)", value = 0.05, min = 0.01, max = 1, step = 0.01),
         shiny::checkboxGroupInput("analysis_type", "Analysis Type", choices = c("Informative Hypothesis Test", "Restricted Means")),
-        shiny::actionButton("run_analysis", "Run Analysis")
+        shiny::actionButton("run_analysis", "Run Analysis"),
+        shiny::actionButton("show_citations", "Citations")
       ),
       shiny::mainPanel(
         shiny::uiOutput("variables_header"),
@@ -62,7 +63,9 @@ mmirestriktor <- function(){
           shiny::verbatimTextOutput("rm_results"),
           shiny::uiOutput("rm_interpretation_header"),
           shiny::htmlOutput("rm_interpretation")
-        )
+        ),
+        shiny::uiOutput("citation_header"),
+        shiny::verbatimTextOutput("citations_output")
       )
     )
   )
@@ -244,6 +247,41 @@ mmirestriktor <- function(){
         })
       }
     })
+
+    # Initialize citations_text as an empty string
+    citations_text <- shiny::reactiveVal("")
+
+    shiny::observeEvent(input$show_citations, {
+      # Get the formatted citations
+      restriktor_citation <- format_citation(utils::citation("restriktor"))
+      mmirestriktor_citation <- format_citation(utils::citation("mmirestriktor"))
+
+      citations <- paste(
+        "Statistical Methods:",
+        "Vanbrabant, L., & Rosseel, Y. (2020). An Introduction to Restriktor: Evaluating informative hypotheses for linear models. In R. van de Schoot & M. Miocevic (Eds.), Small Sample Size Solutions: A Guide for Applied Researchers and Practitioners (1st ed., pp. 157 -172). Routledge.",
+        "",
+        "Software Implementing the Primary Statistical Methods",
+        restriktor_citation,
+        "",
+        "Web Application:",
+        mmirestriktor_citation,
+        sep = "\n"
+      )
+      citations_text(citations)
+    })
+
+
+    # Render the citations output
+    output$citations_output <- shiny::renderText({
+      citations_text()
+    })
+
+    output$citation_header <- shiny::renderUI({
+      shiny::req(citations_text())
+      shiny::tags$h2("Citations")
+    })
+
+
   }
 
   shiny::shinyApp(ui = ui, server = server)

@@ -132,7 +132,8 @@ replext_pgsql <- function(dbname, datatable, host, port, user, password) {
         shiny::actionButton("submit", "Submit"),
         shiny::br(),  # Add a line break
         shiny::br(),  # Add a line break
-        shiny::downloadButton("downloadBtn", "Download Data")
+        shiny::downloadButton("downloadBtn", "Download Data"),
+        shiny::actionButton("show_citations", "Citations")
       ),
       shiny::mainPanel(
         # Conditionally display the Simulation Results header and table
@@ -144,7 +145,9 @@ replext_pgsql <- function(dbname, datatable, host, port, user, password) {
         shiny::div(
           shiny::h4("All Responses"),
           DT::DTOutput("responses")
-        )
+        ),
+        shiny::uiOutput("citation_header"),
+        shiny::verbatimTextOutput("citations_output")
       )
     )
   )
@@ -231,6 +234,39 @@ replext_pgsql <- function(dbname, datatable, host, port, user, password) {
         utils::write.csv(loadData(), file, row.names = FALSE)
       }
     )
+
+    # Initialize citations_text as an empty string
+    citations_text <- shiny::reactiveVal("")
+
+    shiny::observeEvent(input$show_citations, {
+      # Get the formatted citations
+      restriktor_citation <- format_citation(utils::citation("restriktor"))
+      mmirestriktor_citation <- format_citation(utils::citation("mmirestriktor"))
+
+      citations <- paste(
+        "Original Simulation Study:",
+        "Vanbrabant, L., Van De Schoot, R., & Rosseel, Y. (2015). Constrained statistical inference: sample-size tables for ANOVA and regression. Frontiers in psychology, 5, 1565. https://doi.org/10.3389/fpsyg.2014.01565",
+        "",
+        "Software Implementing the Primary Statistical Methods",
+        restriktor_citation,
+        "",
+        "Software Implementing the Web Application & Version of Simulation:",
+        mmirestriktor_citation,
+        sep = "\n"
+      )
+      citations_text(citations)
+    })
+
+
+    # Render the citations output
+    output$citations_output <- shiny::renderText({
+      citations_text()
+    })
+
+    output$citation_header <- shiny::renderUI({
+      shiny::req(citations_text())
+      shiny::tags$h2("Citations")
+    })
   }
 
   # Run the application

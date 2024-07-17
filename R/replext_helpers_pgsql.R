@@ -82,7 +82,7 @@ appendInputParams_pgsql <- function(df, input) {
 
     params_df <- data.frame(
       S = input$S, k = input$k, fs = input$fs,
-      n_start = input$n_start, constrs = text_to_vector(input$constrs |> paste(collapse = ",")),
+      n_start = input$n_start, constrs = text_to_vector(input$constrs) |> paste(collapse = ","),
       alpha = input$alpha, pow = input$pow, nmax = input$nmax, #Seed = input$seed,
       RunCode = run_code, stringsAsFactors = FALSE
     )
@@ -168,4 +168,39 @@ runSimulation_pgsql <- function(input) {
     stop("Must select a supported cell block")
   }
 
+}
+
+#' Format Citation
+#'
+#' This internal function formats a citation object into a readable string.
+#' The function extracts relevant information such as the title, author,
+#' year, address, note, and URL from the citation object and formats it into a
+#' standardized citation format.
+#'
+#' @param cit A citation object typically obtained from `citation()`.
+#'
+#' @return A character string with the formatted citation.
+#'
+#' @keywords internal
+format_citation <- function(cit) {
+  title <- cit$title
+  author <- if (is.null(cit$author)) {
+    cit$organization
+  } else {
+    paste(sapply(cit$author, function(a) paste(a$given, a$family)), collapse = ", ")
+  }
+  year <- cit$year
+  address <- cit$address
+  url <- cit$url
+  note <- cit$note
+
+  formatted_cit <- paste0(
+    author, " (", year, "). ",
+    title, ". ",
+    note, ", ",
+    "Retrieved from ", url, ". ",
+    address
+  )
+
+  formatted_cit
 }
