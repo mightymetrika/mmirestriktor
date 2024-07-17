@@ -1,8 +1,10 @@
-This update adds the replext_pgsql() 'shiny' app function which is similar to the
-replext() function except it is designed to save results to 'PostgreSQL' database.
+This patch fixes a bug in the appendInputParams_pgsql() function to ensure that
+the constrs vector gets stored properly in the database.
 
-The update also removes a problematic unit test which occasionally causes CRAN
-check results errors.
+The patch also adds a Citations button to replext_pgsql() and mmirestriktor()
+'shiny' apps so that users can find the citations for statistical methods,
+software implementations of statistical methods, and web application without
+leaving the apps.
 
 ## R CMD check results
 
